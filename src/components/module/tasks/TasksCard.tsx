@@ -2,10 +2,11 @@
 import {Button} from '@/components/ui/button';
 import {Checkbox} from '@/components/ui/checkbox';
 import {cn} from '@/lib/utils';
+import {toggleCompleteState} from '@/redux/features/task/taskSlice';
+import {useAppDispatch} from '@/redux/hook';
 import type {ITask} from '@/types';
 
 // import {deleteTask, toggleCompleteState} from '@/redux/features/todo/todoSlice';
-// import {useAppDispatch} from '@/redux/hooks';
 // import {type ITodo} from '@/types';
 import {Trash2} from 'lucide-react';
 
@@ -14,7 +15,7 @@ interface IProps {
 }
 
 export default function TaskCard({task}: IProps) {
-    // const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
     return (
         <div className='border px-5 py-3 rounded-md '>
             <div className='flex justify-between items-center'>
@@ -44,10 +45,7 @@ export default function TaskCard({task}: IProps) {
                         <Trash2 />
                     </Button>
                     <Checkbox
-                    // checked={task.isCompleted}
-                    // onCheckedChange={() =>
-                    //     dispatch(toggleCompleteState(task._id))
-                    // }
+                        onClick={() => dispatch(toggleCompleteState(task.id))}
                     />
                 </div>
             </div>
