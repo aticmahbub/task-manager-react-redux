@@ -2,7 +2,7 @@
 import {Button} from '@/components/ui/button';
 import {Checkbox} from '@/components/ui/checkbox';
 import {cn} from '@/lib/utils';
-import {toggleCompleteState} from '@/redux/features/task/taskSlice';
+import {deleteTask, toggleCompleteState} from '@/redux/features/task/taskSlice';
 import {useAppDispatch} from '@/redux/hook';
 import type {ITask} from '@/types';
 
@@ -29,7 +29,7 @@ export default function TaskCard({task}: IProps) {
                     ></div>
                     <h1
                         className={cn('text-xl', {
-                            // 'line-through': task.isCompleted,
+                            'line-through': task.isCompleted,
                         })}
                     >
                         {task.title}
@@ -38,13 +38,14 @@ export default function TaskCard({task}: IProps) {
                 <div className='flex gap-3 items-center'>
                     {/* <UpdateTaskModal task={task} /> */}
                     <Button
-                        // onClick={() => dispatch(deleteTask(task._id))}
+                        onClick={() => dispatch(deleteTask(task.id))}
                         variant='link'
                         className='p-0 text-red-500'
                     >
                         <Trash2 />
                     </Button>
                     <Checkbox
+                        checked={task.isCompleted}
                         onClick={() => dispatch(toggleCompleteState(task.id))}
                     />
                 </div>
