@@ -29,6 +29,8 @@ import {
 import {Textarea} from '@/components/ui/textarea';
 import {cn} from '@/lib/utils';
 import {addTask} from '@/redux/features/task/taskSlice';
+import {selectUsers} from '@/redux/features/user/userSlice';
+import {useAppSelector} from '@/redux/hook';
 import type {ITask} from '@/types';
 import {format} from 'date-fns';
 
@@ -39,6 +41,8 @@ import {useDispatch} from 'react-redux';
 export function AddTaskModal() {
     const form = useForm();
     const dispatch = useDispatch();
+    const users = useAppSelector(selectUsers);
+    console.log(users);
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         console.log(data);
         dispatch(addTask(data as ITask));
@@ -62,6 +66,21 @@ export function AddTaskModal() {
                         onSubmit={form.handleSubmit(onSubmit)}
                         className='space-y-4'
                     >
+                        <FormField
+                            control={form.control}
+                            name='assignedTo'
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Assign to</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            value={field.value || ''}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name='title'

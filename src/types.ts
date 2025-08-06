@@ -1,8 +1,25 @@
+export type TFilter = 'all' | 'high' | 'medium' | 'low';
+
+export interface InitialState {
+    tasks: ITask[];
+    filter: TFilter;
+}
+
 export interface ITask {
     id: string;
     title: string;
     description: string;
     dueDate: string;
     isCompleted: boolean;
-    priority: 'all' | 'high' | 'medium' | 'low';
+    priority: TFilter;
+}
+
+export interface IUser {
+    userName: string;
+    id: string;
+}
+export interface IInput {
+    name: string;
+    label: string;
+    defaultValue?: string;
 }
