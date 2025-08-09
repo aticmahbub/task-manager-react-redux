@@ -1,6 +1,7 @@
 import type {RootState} from '@/redux/store';
 import type {InitialState, ITask} from '@/types';
 import {createSlice, type PayloadAction, nanoid} from '@reduxjs/toolkit';
+import {removeUser} from '../user/userSlice';
 
 const initialState: InitialState = {
     tasks: [
@@ -11,6 +12,7 @@ const initialState: InitialState = {
             dueDate: '2025-11-27',
             isCompleted: false,
             priority: 'high',
+            assignedTo: 'fvgbhnj',
         },
         {
             id: 'ojo',
@@ -19,13 +21,22 @@ const initialState: InitialState = {
             dueDate: '2025-11-27',
             isCompleted: false,
             priority: 'medium',
+            assignedTo: null,
         },
     ],
     filter: 'all',
 };
-type DraftTask = Pick<ITask, 'title' | 'description' | 'dueDate' | 'priority'>;
+type DraftTask = Pick<
+    ITask,
+    'title' | 'description' | 'dueDate' | 'priority' | 'assignedTo'
+>;
 const createTask = (taskData: DraftTask): ITask => {
-    return {...taskData, id: nanoid(), isCompleted: false};
+    return {
+        ...taskData,
+        id: nanoid(),
+        isCompleted: false,
+        assignedTo: taskData.assignedTo ? taskData.assignedTo : null,
+    };
 };
 
 const taskSlice = createSlice({
@@ -55,6 +66,15 @@ const taskSlice = createSlice({
         ) => {
             state.filter = action.payload;
         },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(removeUser, (state, action) => {
+            state.tasks.forEach((task) =>
+                task.assignedTo === action.payload
+                    ? (task.assignedTo = null)
+                    : task,
+            );
+        });
     },
 });
 
