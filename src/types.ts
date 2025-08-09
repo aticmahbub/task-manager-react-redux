@@ -12,6 +12,7 @@ export interface ITask {
     dueDate: string;
     isCompleted: boolean;
     priority: TFilter;
+    assignedTo: string | null;
 }
 
 export interface IUser {

@@ -68,21 +68,6 @@ export function AddTaskModal() {
                     >
                         <FormField
                             control={form.control}
-                            name='assignedTo'
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormLabel>Assign to</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            value={field.value || ''}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
                             name='title'
                             render={({field}) => (
                                 <FormItem>
@@ -187,6 +172,34 @@ export function AddTaskModal() {
                                             />
                                         </PopoverContent>
                                     </Popover>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name='assignedTo'
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Assign to</FormLabel>
+                                    <Select
+                                        onValueChange={field.onChange}
+                                        defaultValue={field.value}
+                                    >
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder='Select user to assign a task' />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {users.map((user) => {
+                                                return (
+                                                    <SelectItem value={user.id}>
+                                                        {user.userName}
+                                                    </SelectItem>
+                                                );
+                                            })}
+                                        </SelectContent>
+                                    </Select>
                                 </FormItem>
                             )}
                         />
